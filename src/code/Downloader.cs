@@ -15,10 +15,13 @@ namespace Modinstaller
         public static HttpClient client = new HttpClient();
         public static async Task Main(string[] args)
         {
-            Console.WriteLine("What is the path of your Amogus?:");
-            path = Console.ReadLine(); //todo: think of a better verfication than double entry?
-            Console.WriteLine($"Are you sure of your path:{path}\nre-enter to confirm or enter a new path:");
-            path = Console.ReadLine();
+            bool acceptedpath = false;
+            while (acceptedpath != true)
+            {
+                Console.WriteLine("What is the path of your Amogus?:");
+                path = Console.ReadLine();
+                if (File.Exists(path + "\\Among Us.exe")) acceptedpath = true;
+            }
             Console.WriteLine("Downloading town of us");
             await Handlezip(path); 
             Movefiles(path, Touversion);
@@ -60,11 +63,13 @@ namespace Modinstaller
         {
            try
            {
+                if (Directory.Exists(path + "\\BepInEx")) Directory.Delete(path + "\\BepInEx", true);
+                if (Directory.Exists(path + "\\mono")) Directory.Delete(path + "\\mono", true);
                 string subfolder = $@"{path}" + $"\\ToU {version}";
                 string[] files = Directory.GetFiles(subfolder);
                 foreach (string file in files)
                 {
-                    File.Move($@"{file}", $@"{path}" + $"\\{file.Substring(subfolder.Length + 1)}");
+                    File.Move($@"{file}", $@"{path}" + $"\\{file.Substring(subfolder.Length + 1)}", true);
                 }
 
                 string[] movablefolders = Directory.GetDirectories(subfolder);
