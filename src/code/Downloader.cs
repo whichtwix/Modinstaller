@@ -23,20 +23,19 @@ namespace Modinstaller
                 if (File.Exists(path + "\\Among Us.exe")) acceptedpath = true;
             }
             Console.WriteLine("Downloading town of us");
-            await Handlezip(path); 
+            await Handlezip(path);
             Movefiles(path, Touversion);
-            Console.WriteLine("Done!");
         }
-        public static async Task Handlezip(string path) 
+        public static async Task Handlezip(string path)
         {
             try
             {
                 client.DefaultRequestHeaders.Add("User-Agent", "TownOfUs Downloader");
                 Json assets = await client.GetFromJsonAsync<Json>(url);
-                string linktozip = assets.Assets[0].Browser_download_url;
+                Assets linktozip = assets.Assets.Find(link => link.Browser_download_url.EndsWith("zip"));
                 Touversion = assets.Name;
-                var connection = await client.GetAsync(linktozip);
-                
+                var connection = await client.GetAsync(linktozip.Browser_download_url);
+
                 string zippath = $@"{path}" + "\\tou.zip";
                 var zip = new FileInfo(zippath);
                 if (connection.IsSuccessStatusCode)
@@ -57,12 +56,14 @@ namespace Modinstaller
             {
                 Console.WriteLine("Error in Handlezip()");
                 Console.WriteLine(e);
+                Console.ReadLine();
+
             }
         }
         public static void Movefiles(string path, string version)
         {
-           try
-           {
+            try
+            {
                 if (Directory.Exists(path + "\\BepInEx")) Directory.Delete(path + "\\BepInEx", true);
                 if (Directory.Exists(path + "\\mono")) Directory.Delete(path + "\\mono", true);
                 string subfolder = $@"{path}" + $"\\ToU {version}";
@@ -79,12 +80,13 @@ namespace Modinstaller
                 }
 
                 Directory.Delete(subfolder);
-           }
-           catch (Exception e)
-           {
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine("Error in movefiles()");
                 Console.WriteLine(e);
-           }
+                Console.ReadLine();
+            }
         }
     }
 }

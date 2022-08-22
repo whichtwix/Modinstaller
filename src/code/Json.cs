@@ -4,11 +4,11 @@ namespace Modinstaller
 {
     public class Json
     {
-        public string Name {get; set;}
-        public List<Assets> Assets {get; set;}
+        public string Name { get; set; }
+        public List<Assets> Assets { get; set; }
     }
     public class Assets
     {
-        public string Browser_download_url {get; set;}
+        public string Browser_download_url { get; set; }
     }
 }

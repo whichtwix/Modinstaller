@@ -11,4 +11,8 @@
     <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
+  
+  <PropertyGroup>
+     <NoWarn>IL2026</NoWarn>
+  </PropertyGroup>
 </Project>
