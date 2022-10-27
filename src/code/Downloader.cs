@@ -7,25 +7,30 @@ using System.Threading.Tasks;
 
 namespace Modinstaller
 {
-    public class Modinstaller
+    public sealed class Modinstaller
     {
         public const string url = "https://api.github.com/repos/eDonnes124/Town-Of-Us-R/releases/latest";
-        public static string path;
+        
         public static string Touversion;
-        public static HttpClient client = new HttpClient();
+
+        public static HttpClient client = new();
+
         public static async Task Main(string[] args)
         {
             bool acceptedpath = false;
+            string path = string.Empty;
             while (acceptedpath != true)
             {
                 Console.WriteLine("What is the path of your Amogus?:");
                 path = Console.ReadLine();
-                if (File.Exists(path + "\\Among Us.exe")) acceptedpath = true;
+                if (Directory.Exists(path + "\\Among Us_Data")) acceptedpath = true;
+                else Console.WriteLine($"the path '{path}' is not valid; vanilla files could not be found");
             }
             Console.WriteLine("Downloading town of us");
             await Handlezip(path);
-            Movefiles(path, Touversion);
+            Movefiles(path, Touversion); 
         }
+        
         public static async Task Handlezip(string path)
         {
             try
@@ -57,26 +62,29 @@ namespace Modinstaller
                 Console.WriteLine("Error in Handlezip()");
                 Console.WriteLine(e);
                 Console.ReadLine();
-
             }
         }
+        
         public static void Movefiles(string path, string version)
         {
             try
             {
                 if (Directory.Exists(path + "\\BepInEx")) Directory.Delete(path + "\\BepInEx", true);
-                if (Directory.Exists(path + "\\mono")) Directory.Delete(path + "\\mono", true);
+                //this check will be phased out once the penultimate latest update doesnt use mono
+                if (Directory.Exists(path + "\\mono")) Directory.Delete(path + "\\mono", true); 
+                if (Directory.Exists(path + "\\dotnet")) Directory.Delete(path + "\\dotnet", true);
+                
                 string subfolder = $@"{path}" + $"\\ToU {version}";
                 string[] files = Directory.GetFiles(subfolder);
                 foreach (string file in files)
                 {
                     File.Move($@"{file}", $@"{path}" + $"\\{file.Substring(subfolder.Length + 1)}", true);
                 }
-
+                
                 string[] movablefolders = Directory.GetDirectories(subfolder);
-                foreach (string moving in movablefolders)
+                foreach (string folder in movablefolders)
                 {
-                    Directory.Move($@"{moving}", $@"{path}" + $"\\{moving.Substring(subfolder.Length + 1)}");
+                    Directory.Move($@"{folder}", $@"{path}" + $"\\{folder.Substring(subfolder.Length + 1)}");
                 }
 
                 Directory.Delete(subfolder);

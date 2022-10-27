@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Modinstaller
 {
-    public class Json
+    public sealed class Json
     {
         public string Name { get; set; }
         public List<Assets> Assets { get; set; }
