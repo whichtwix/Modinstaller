@@ -60,7 +60,9 @@ namespace Modinstaller
             catch (Exception e)
             {
                 Console.WriteLine("Error in Handlezip()");
-                Console.WriteLine(e);
+                string omitname = e.StackTrace.Split(@"C:\")[0];
+                string errorlocation = e.StackTrace.Split(@"C:\")[1].Substring(11);
+                Console.WriteLine(omitname + errorlocation);
                 Console.ReadLine();
             }
         }
@@ -91,8 +93,10 @@ namespace Modinstaller
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error in movefiles()");
-                Console.WriteLine(e);
+                Console.WriteLine("Error in Handlezip()");
+                string omitname = e.StackTrace.Split(@"C:\")[0];
+                string errorlocation = e.StackTrace.Split(@"C:\")[1].Substring(11);
+                Console.WriteLine(omitname + errorlocation);
                 Console.ReadLine();
             }
         }
