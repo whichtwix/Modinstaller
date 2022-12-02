@@ -1,7 +1,9 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/whichtwix/Modinstaller/total?color=%20%2332CD32&style=plastic)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/whichtwix/Modinstaller?style=plastic)
 #  :hammer_and_wrench:Modinstaller
-A small application that installs the Among Us mod [town of us](https://github.com/eDonnes124/Town-Of-Us-R) with minimal user interaction. Making manual installs automatic.It's also used by [las monjas](https://github.com/KiraYamato94/LasMonjas)
+A small application that installs the Among Us mod [Town of Us](https://github.com/eDonnes124/Town-Of-Us-R) with minimal user interaction. Making manual installs automatic.It's also used by [Las Monjas](https://github.com/KiraYamato94/LasMonjas)
+
+An application for [The Other Roles](https://github.com/TheOtherRolesAU/TheOtherRoles/issues) is available [here](https://github.com/Teejay39/TOR-Installer) managed by a separate user 
 
 ## :grey_question:Why this over [ModManager](https://github.com/MatuxGG/ModManager) and the ingame updater already present?
 - ModManager requires setup before you can install your mods - here you can get right in
@@ -17,4 +19,4 @@ A small application that installs the Among Us mod [town of us](https://github.c
 
 ## Usage
 - Refer to the [latest release](https://github.com/whichtwix/Modinstaller/releases/latest) to know what to do
-- You will need to install this once and can reuse it every update
+- You will need to install this once and can reuse it every update apart from any breaking changes that may occur to the exe's functionality
