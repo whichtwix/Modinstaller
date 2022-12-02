@@ -36,6 +36,8 @@ namespace Modinstaller
             try
             {
                 client.DefaultRequestHeaders.Add("User-Agent", "TownOfUs Downloader");
+                client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
+
                 Json assets = await client.GetFromJsonAsync<Json>(url);
                 Assets linktozip = assets.Assets.Find(link => link.Browser_download_url.EndsWith("zip"));
                 Touversion = assets.Name;
