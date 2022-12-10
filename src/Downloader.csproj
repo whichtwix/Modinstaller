@@ -2,19 +2,26 @@
   <PropertyGroup>
     <TargetFramework>Net6.0</TargetFramework>
     <Configuration>Release</Configuration>
-    <Version>2.0.0</Version>
+    <Version>3.1.0</Version>
     <DebugType>embedded</DebugType>
     <LangVersion>latest</LangVersion>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
-  
+
   <PropertyGroup>
-     <NoWarn>IL2026</NoWarn>
+    <NoWarn>IL2026</NoWarn>
+    <NoWarn>IL2105</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.45.1-preview.0.45"/>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9"/>
+  </ItemGroup>
+
 </Project>
