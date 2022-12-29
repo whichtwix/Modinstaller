@@ -10,9 +10,17 @@ namespace Modinstaller
 {
     public partial class Modinstaller
     {
-        public static string modversion;
+        private static string modversion;
 
-        public static HttpClient client { get; set; } = new();
+        public static HttpClient Client { get; set; } = new()
+        {
+            DefaultRequestHeaders =
+            {
+                {"User-Agent", "Modinstaller"},
+                {"X-GitHub-Api-Version", "2022-11-28"}
+            },
+            Timeout = TimeSpan.FromMinutes(30)
+        };
 
         public static Dictionary<string, string> Mods { get; } = new()
         {
@@ -23,7 +31,7 @@ namespace Modinstaller
             {"Town of Host:The Other Roles", "https://api.github.com/repos/music-discussion/TownOfHost-TheOtherRoles/releases"}
         };
 
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
             bool useagain = true;
             while (useagain)
@@ -67,7 +75,7 @@ namespace Modinstaller
         {
             bool acceptedpath = false;
             string path = string.Empty;
-            while (acceptedpath != true)
+            while (!acceptedpath)
             {
                 path = AnsiConsole.Ask<string>("Enter the path to your among us folder(copy paste here):");
                 if (Directory.Exists(path + "\\Among Us_Data")) acceptedpath = true;
@@ -80,9 +88,6 @@ namespace Modinstaller
         {
             try
             {
-                client.DefaultRequestHeaders.Add("User-Agent", "Modinstaller");
-                client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
-                client.Timeout = TimeSpan.FromMinutes(30);
                 HttpResponseMessage connection;
 
                 string url = Mods[selectedmod];
@@ -96,17 +101,13 @@ namespace Modinstaller
                     connection = await Fetchfromallreleases(url);
                 }
 
-                string zippath = $@"{path}" + "\\mod.zip";
+                string zippath = $"{path}" + "\\mod.zip";
                 var zip = new FileInfo(zippath);
                 if (connection.IsSuccessStatusCode)
                 {
-                    using (var data = await connection.Content.ReadAsStreamAsync())
-                    {
-                        using (var datastream = zip.OpenWrite())
-                        {
-                            await data.CopyToAsync(datastream);
-                        }
-                    }
+                    using var data = await connection.Content.ReadAsStreamAsync();
+                    using var datastream = zip.OpenWrite();
+                    await data.CopyToAsync(datastream);
                 }
 
                 if (Directory.Exists(path + "\\BepInEx")) Directory.Delete(path + "\\BepInEx", true);
@@ -144,17 +145,15 @@ namespace Modinstaller
                         break;
                 }
 
-                string subfolder = modversion != string.Empty ? $@"{path}" + $"\\{mod} {modversion}" : $@"{path}" + $"\\{mod}";
-                string[] files = Directory.GetFiles(subfolder);
-                foreach (string file in files)
+                string subfolder = modversion != string.Empty ? $"{path}\\{mod} {modversion}" : $"{path}\\{mod}";
+                foreach (string file in Directory.GetFiles(subfolder))
                 {
-                    File.Move($@"{file}", $@"{path}" + $"\\{file.Substring(subfolder.Length + 1)}", true);
+                    File.Move($"{file}", $"{path}\\{file.Substring(subfolder.Length + 1)}", true);
                 }
 
-                string[] movablefolders = Directory.GetDirectories(subfolder);
-                foreach (string folder in movablefolders)
+                foreach (string folder in Directory.GetDirectories(subfolder))
                 {
-                    Directory.Move($@"{folder}", $@"{path}" + $"\\{folder.Substring(subfolder.Length + 1)}");
+                    Directory.Move($"{folder}", $"{path}\\{folder.Substring(subfolder.Length + 1)}");
                 }
 
                 Directory.Delete(subfolder);
