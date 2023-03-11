@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>Net6.0</TargetFramework>
     <Configuration>Release</Configuration>
-    <Version>3.1.0</Version>
+    <Version>3.2.0</Version>
     <DebugType>embedded</DebugType>
     <LangVersion>latest</LangVersion>
     <OutputType>Exe</OutputType>
@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spectre.Console" Version="0.45.1-preview.0.45"/>
+    <PackageReference Include="Spectre.Console" Version="0.46.0"/>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9"/>
   </ItemGroup>
 
