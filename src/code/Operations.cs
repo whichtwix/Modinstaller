@@ -108,6 +108,12 @@ namespace Modinstaller
 
         public static async Task ViewPresets()
         {
+            if (!File.Exists(Constants.Jsonpath))
+            {
+                Console.WriteLine("Presets file does not exist");
+                return;
+            }
+
             Process.Start("notepad.exe", Constants.Jsonpath);
         }
     }
