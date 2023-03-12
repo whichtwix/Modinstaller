@@ -18,7 +18,7 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Test_Project_Path: src/Downloader.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Test_Project_Path: src/Modinstaller.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
       Root: src/
 
 
@@ -51,4 +51,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Modinstaller.exe
-        path: src\bin\Release\net6.0\win10-x64\publish\Downloader.exe
+        path: src\bin\Release\net6.0\win10-x64\publish\Modinstaller.exe
