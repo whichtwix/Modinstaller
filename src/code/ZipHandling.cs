@@ -85,6 +85,7 @@ namespace Modinstaller
                     connection = await GithubApi.Fetchfromallreleases(url, modversion);
                 }
 
+                if (!Directory.Exists(Destinationpath)) Directory.CreateDirectory(Destinationpath);
                 string zippath = $"{Destinationpath}" + "\\mod.zip";
                 var zip = new FileInfo(zippath);
                 if (connection.IsSuccessStatusCode)
