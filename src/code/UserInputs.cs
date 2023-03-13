@@ -24,13 +24,14 @@ namespace Modinstaller
             if (enter) Destination = AnsiConsole.Ask<string>("Enter the path to a empty folder(copy paste here) or enter to exit:");
             if (!ValidPath(Destination) && Destination != string.Empty)
             {
-                Destination = string.Empty;
                 Console.WriteLine($" '{Destination}' was found as an invalid directory or potentional directory");
+                Destination = string.Empty;
             }
         }
 
         public static bool ValidPath(string path)
         {
+            if (!Path.IsPathRooted(path)) return false;
             if (Directory.Exists(path) && Directory.GetFiles(path) == Array.Empty<string>()) return true;
 
             if (!Directory.Exists(path))
