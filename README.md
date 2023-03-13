@@ -12,9 +12,10 @@ A small application that can install multiple mods with minimal user interaction
 - The updater is rendered unusable with mod updates aimed at new among us versions and a manual installation would have to be done anyway
 
 ## 	:gear:How it works
-- A user inputs the file path to the folder to install the mod and what mod they want - they only have to do this
+- A user inputs the folder paths for the original folder, optionally a installation folder, and what mod they want - they only have to do this
 - The program fetches the latest download link and version number from the github repo's API
 - The zip is downloaded, extracted, and contents are set up in the folder without further input
+- The user may also save presets to use again later - comprising of 1 or 2 folders and the mod
 
 ## Usage
 - Refer to the [User guide](https://github.com/whichtwix/Modinstaller/wiki/User-guide) to know what to do
