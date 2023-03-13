@@ -19,13 +19,12 @@ namespace Modinstaller
                 Console.WriteLine($"Downloading {mod} to {Destinationpath}");
                 await DownloadExtractzip(Basepath, Destinationpath, mod, modversion);
                 Movefiles(Destinationpath, mod, modversion.Version);
+                return;
             }
-            else
-            {
-                Console.WriteLine($"Downloading {mod} to {Basepath}");
-                await DownloadExtractzip(Basepath, mod, modversion);
-                Movefiles(Basepath, mod, modversion.Version);
-            }
+            Console.WriteLine($"Downloading {mod} to {Basepath}");
+            await DownloadExtractzip(Basepath, mod, modversion);
+            Movefiles(Basepath, mod, modversion.Version);
+
             Console.WriteLine($"installation of {mod} complete");
         }
 

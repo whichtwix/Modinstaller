@@ -19,10 +19,7 @@ namespace Modinstaller
             {
                 return presets.ConvertAll(x => x.BaseFolder).Distinct().Count() != presets.Count;
             }
-            else
-            {
-                return presets.ConvertAll(x => x.DestinationFolder).Distinct().Count() != presets.Count;
-            }
+            return presets.ConvertAll(x => x.DestinationFolder).Distinct().Count() != presets.Count;
         }
 
         public static bool AllEmptyDestinations(List<PresetsJson> presets)

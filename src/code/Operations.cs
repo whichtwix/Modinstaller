@@ -40,12 +40,10 @@ namespace Modinstaller
             if (mod == "All presets")
             {
                 await Parallel.ForEachAsync(presets, async (preset, _) => await ModZip.Install(preset.BaseFolder, preset.DestinationFolder, preset.Mod));
+                return;
             }
-            else
-            {
-                var preset = presets.Find(x => x.Mod == mod);
-                await ModZip.Install(preset.BaseFolder, preset.DestinationFolder, preset.Mod);
-            }
+            var preset = presets.Find(x => x.Mod == mod);
+            await ModZip.Install(preset.BaseFolder, preset.DestinationFolder, preset.Mod);
         }
 
         public static async Task AddToJson()
@@ -65,19 +63,15 @@ namespace Modinstaller
             {
                 Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\\Modinstaller");
                 List<PresetsJson> presets = new() { preset };
-                string serial = JsonSerializer.Serialize(presets, Constants.opts);
-                await File.WriteAllTextAsync(Constants.Jsonpath, serial);
+                string Serial = JsonSerializer.Serialize(presets, Constants.opts);
+                await File.WriteAllTextAsync(Constants.Jsonpath, Serial);
                 return;
             }
-            else
-            {
-                var currentfile = Presetfile.GetPresets();
-                currentfile = currentfile.FindAll(x => x.Mod != preset.Mod);
-                currentfile.Add(preset);
-                string serial = JsonSerializer.Serialize(currentfile, Constants.opts);
-                await File.WriteAllTextAsync(Constants.Jsonpath, serial);
-                return;
-            }
+            var currentfile = Presetfile.GetPresets();
+            currentfile = currentfile.FindAll(x => x.Mod != preset.Mod);
+            currentfile.Add(preset);
+            string serial = JsonSerializer.Serialize(currentfile, Constants.opts);
+            await File.WriteAllTextAsync(Constants.Jsonpath, serial);
         }
 
         public static async Task RemoveFromJson()
