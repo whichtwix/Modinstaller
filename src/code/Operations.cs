@@ -28,9 +28,9 @@ namespace Modinstaller
             var presets = Presetfile.GetPresets();
             List<string> items = Presetfile.GetPresets().ConvertAll(x => x.Mod);
 
-            //check if a epic player has multiple of the same base folders, or a steam and their destination folders
-            if ((Presetfile.IsEpicGames(presets) && !Presetfile.ClashingPaths(presets, true)) ||
-                (!Presetfile.IsEpicGames(presets) && !Presetfile.ClashingPaths(presets, false)))
+            //check if multiple destination files are the same, or base folders and destinations are empty
+            if ((!Presetfile.ClashingPaths(presets, true) && Presetfile.AllEmptyDestinations(presets)) ||
+                 !Presetfile.ClashingPaths(presets, false))
             {
                 items.Add("All presets");
             }

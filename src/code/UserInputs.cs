@@ -20,15 +20,12 @@ namespace Modinstaller
                 else Console.WriteLine($"the path '{Basepath}' is not valid; vanilla files could not be found");
             }
 
-            if (!Directory.Exists(Basepath + "\\.egstore"))
+            bool enter = AnsiConsole.Confirm("Would you like to make a copy of the game and put the mod there?");
+            if (enter) Destination = AnsiConsole.Ask<string>("Enter the path to a empty folder(copy paste here) or enter to exit:");
+            if (!ValidPath(Destination) && Destination != string.Empty)
             {
-                bool enter = AnsiConsole.Confirm("Would you like to make a copy of the game and put the mod there?");
-                if (enter) Destination = AnsiConsole.Ask<string>("Enter the path to a empty folder(copy paste here) or enter to exit:");
-                if (!ValidPath(Destination) && Destination != string.Empty)
-                {
-                    Destination = string.Empty;
-                    Console.WriteLine($" '{Destination}' was found as an invalid directory or potentional directory");
-                }
+                Destination = string.Empty;
+                Console.WriteLine($" '{Destination}' was found as an invalid directory or potentional directory");
             }
         }
 
