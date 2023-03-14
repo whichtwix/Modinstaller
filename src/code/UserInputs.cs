@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using System.Collections.Generic;
 using Spectre.Console;
+using System.Collections.Generic;
 
 namespace Modinstaller
 {

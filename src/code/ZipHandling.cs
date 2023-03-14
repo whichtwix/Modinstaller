@@ -1,8 +1,8 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using System.IO.Compression;
 using System.Threading.Tasks;
-using System.Net.Http;
 
 namespace Modinstaller
 {
