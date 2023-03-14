@@ -1,9 +1,10 @@
 using System;
 using System.IO;
+using Spectre.Console;
 using System.Text.Json;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Modinstaller
 {
@@ -15,6 +16,21 @@ namespace Modinstaller
             string mod = Inputs.ChooseFromChoice(Constants.Mods.Keys, "Select which mod you want to install:");
 
             await ModZip.Install(Basepath, Destinationpath, mod);
+
+            if (!File.Exists(Constants.Jsonpath) || !Presetfile.GetPresets().ConvertAll(x => x.Mod).Contains(mod))
+            {
+                bool save = AnsiConsole.Confirm("Do you want to save these details as a preset now for future use?");
+                if (save)
+                {
+                    PresetsJson preset = new()
+                    {
+                        BaseFolder = Basepath,
+                        DestinationFolder = Destinationpath,
+                        Mod = mod
+                    };
+                    Presetfile.WriteJson(preset);
+                }
+            }
         }
 
         public static async Task InstallByJson()
@@ -58,20 +74,7 @@ namespace Modinstaller
                 BaseFolder = Basepath,
                 DestinationFolder = Destinationpath
             };
-
-            if (!File.Exists(Constants.Jsonpath))
-            {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\\Modinstaller");
-                List<PresetsJson> presets = new() { preset };
-                string Serial = JsonSerializer.Serialize(presets, Constants.opts);
-                await File.WriteAllTextAsync(Constants.Jsonpath, Serial);
-                return;
-            }
-            var currentfile = Presetfile.GetPresets();
-            currentfile = currentfile.FindAll(x => x.Mod != preset.Mod);
-            currentfile.Add(preset);
-            string serial = JsonSerializer.Serialize(currentfile, Constants.opts);
-            await File.WriteAllTextAsync(Constants.Jsonpath, serial);
+            Presetfile.WriteJson(preset);
         }
 
         public static async Task RemoveFromJson()

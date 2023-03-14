@@ -1,7 +1,8 @@
+using System;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 using System.Text.Json;
+using System.Collections.Generic;
 
 namespace Modinstaller
 {
@@ -11,6 +12,23 @@ namespace Modinstaller
         {
             string file = File.ReadAllText(Constants.Jsonpath);
             return (List<PresetsJson>) JsonSerializer.Deserialize(file, typeof(List<PresetsJson>));
+        }
+
+        public static async void WriteJson(PresetsJson preset)
+        {
+            if (!File.Exists(Constants.Jsonpath))
+            {
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\\Modinstaller");
+                List<PresetsJson> presets = new() { preset };
+                string Serial = JsonSerializer.Serialize(presets, Constants.opts);
+                await File.WriteAllTextAsync(Constants.Jsonpath, Serial);
+                return;
+            }
+            var currentfile = Presetfile.GetPresets();
+            currentfile = currentfile.FindAll(x => x.Mod != preset.Mod);
+            currentfile.Add(preset);
+            string serial = JsonSerializer.Serialize(currentfile, Constants.opts);
+            await File.WriteAllTextAsync(Constants.Jsonpath, serial);
         }
 
         public static bool ClashingPaths(List<PresetsJson> presets, bool CheckBasefolders)
