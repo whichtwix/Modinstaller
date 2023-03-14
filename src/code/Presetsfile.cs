@@ -18,13 +18,13 @@ namespace Modinstaller
         {
             if (!File.Exists(Constants.Jsonpath))
             {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\\Modinstaller");
+                Directory.CreateDirectory(Constants.Jsonpath.Replace("\\InstallPresets.json", string.Empty));
                 List<PresetsJson> presets = new() { preset };
                 string Serial = JsonSerializer.Serialize(presets, Constants.opts);
                 await File.WriteAllTextAsync(Constants.Jsonpath, Serial);
                 return;
             }
-            var currentfile = Presetfile.GetPresets();
+            var currentfile = GetPresets();
             currentfile = currentfile.FindAll(x => x.Mod != preset.Mod);
             currentfile.Add(preset);
             string serial = JsonSerializer.Serialize(currentfile, Constants.opts);

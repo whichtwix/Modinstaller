@@ -21,7 +21,7 @@ namespace Modinstaller
             }
 
             bool enter = AnsiConsole.Confirm("Would you like to make a copy of the game and put the mod there?");
-            if (enter) Destination = AnsiConsole.Ask<string>("Enter the path to a empty folder(copy paste here) or enter to exit:");
+            if (enter) Destination = AnsiConsole.Ask("Enter the path to a empty folder(copy paste here) or enter to exit:", string.Empty);
             if (!ValidPath(Destination) && Destination != string.Empty)
             {
                 Console.WriteLine($" '{Destination}' was found as an invalid directory or potentional directory");

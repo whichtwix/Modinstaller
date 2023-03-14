@@ -11,4 +11,4 @@ Step 2: Use the up and down arrow keys to select the mod you want to install, it
 
 The zip will start to be downloaded and after it will be extracted and set up in the designated folder. Please be patient as zips can be quite large and your internet speed is taken into consideration. 
 
-After finishing it will prompt if you want to install again. You may act accordingly at this point.
+After finishing it will prompt if you want to save your inputs as a preset right now and then show all the actions again. You may act accordingly at this point.
