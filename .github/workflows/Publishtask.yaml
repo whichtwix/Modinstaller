@@ -32,7 +32,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.x.x
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
@@ -51,4 +51,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Modinstaller.exe
-        path: src\bin\Release\net6.0\win10-x64\publish\Modinstaller.exe
+        path: src\bin\Release\net7.0\win10-x64\publish\Modinstaller.exe
