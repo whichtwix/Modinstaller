@@ -18,5 +18,5 @@ A small application that can install multiple mods with minimal user interaction
 - The user may also save presets to use again later - comprising of 1 or 2 folders and the mod
 
 ## Usage
-- Refer to the [User guide](https://github.com/whichtwix/Modinstaller/wiki/User-guide) to know what to do
+- Refer to the [User guide](https://github.com/whichtwix/Modinstaller/tree/Master/User_Guide) to know what to do
 - You will need to install this once and can reuse it every update apart from any breaking changes that may occur to the exe's functionality
