@@ -7,7 +7,6 @@ A small application that can install multiple mods with minimal user interaction
 ## :grey_question:Why this over [ModManager](https://github.com/MatuxGG/ModManager) and the ingame updater already present?
 - ModManager requires setup before you can install your mods - here you can get right in
 - Issues such as with sign in and conflicts with mod's ingame updater have been noted to arise with ModManager
-- You have to put in more work navigating through more menus with ModManager  
 - Comparing to the updater, you dont have to open the game, update the mod, and restart the game - the exe is ultimately faster
 - The updater is rendered unusable with mod updates aimed at new among us versions and a manual installation would have to be done anyway
 
