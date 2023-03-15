@@ -18,7 +18,7 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Test_Project_Path: src/Downloader.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Test_Project_Path: src/Modinstaller.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
       Root: src/
 
 
@@ -32,11 +32,11 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.x.x
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v1
   
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
@@ -51,4 +51,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Modinstaller.exe
-        path: src\bin\Release\net6.0\win10-x64\publish\Downloader.exe
+        path: src\bin\Release\net6.0\win10-x64\publish\Modinstaller.exe
