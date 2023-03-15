@@ -13,7 +13,12 @@ namespace Modinstaller
         public static async Task InstallByUser()
         {
             Inputs.Setfolderpaths(out string Basepath, out string Destinationpath);
-            string mod = Inputs.ChooseFromChoice(Constants.Mods.Keys, "Select which mod you want to install:");
+            List<string> items = new(Constants.Mods.Keys)
+            {
+                "Cancel"
+            };
+            string mod = Inputs.ChooseFromChoice(items, "Select which mod you want to install:");
+            if (mod == "Cancel") return;
 
             await ModZip.Install(Basepath, Destinationpath, mod);
 
@@ -50,8 +55,10 @@ namespace Modinstaller
             {
                 items.Add("All presets");
             }
+            items.Add("Cancel");
 
             string mod = Inputs.ChooseFromChoice(items, "Select which mod you want to install:");
+            if (mod == "Cancel") return;
 
             if (mod == "All presets")
             {
@@ -66,7 +73,12 @@ namespace Modinstaller
         {
             Console.WriteLine("WARNING: only 1 preset per mod is allowed and selecting again will override the existing one");
             Inputs.Setfolderpaths(out string Basepath, out string Destinationpath);
-            string mod = Inputs.ChooseFromChoice(Constants.Mods.Keys, "Select which mod you want to install at the folder:");
+            List<string> items = new(Constants.Mods.Keys)
+            {
+                "Cancel"
+            };
+            string mod = Inputs.ChooseFromChoice(items, "Select which mod you want to install at the folder:");
+            if (mod == "Cancel") return;
 
             PresetsJson preset = new()
             {
@@ -86,9 +98,9 @@ namespace Modinstaller
             }
 
             var presets = Presetfile.GetPresets();
-            var list = Presetfile.GetPresets().ConvertAll(x => x.Mod);
-            list.Add("Cancel");
-            string mod = Inputs.ChooseFromChoice(list, "Choose the mod you want to remove:");
+            var items = Presetfile.GetPresets().ConvertAll(x => x.Mod);
+            items.Add("Cancel");
+            string mod = Inputs.ChooseFromChoice(items, "Choose the mod you want to remove:");
 
             if (mod == "Cancel") return;
 
