@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using Spectre.Console;
 using System.Collections.Generic;
 
@@ -32,7 +33,7 @@ namespace Modinstaller
         public static bool ValidPath(string path)
         {
             if (!Path.IsPathRooted(path)) return false;
-            if (Directory.Exists(path) && Directory.GetFiles(path) == Array.Empty<string>()) return true;
+            if (Directory.Exists(path) && Directory.GetFiles(path).SequenceEqual(Array.Empty<string>())) return true;
 
             if (!Directory.Exists(path))
             {
