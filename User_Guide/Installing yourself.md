@@ -5,7 +5,7 @@ Step 1. You will be prompted to enter the path to your among us folder which you
 
 Similarly, you may enter a 2nd path if you wish, this one is required to be a empty folder or will create one (ie ```Desktop\\mod``` may not exist yet but a empty directory named ```mod``` will be made on desktop). If you enter 1 path only, the mod will be installed there. If you give 2 paths, files from the first folder will be copied to the 2nd, and the mod will be installed at the second. This allows for making a copy of the base game somewhere else like desktop and having the mod there.
 
-note: epic players cannot sign in from folders that arent the one displayed when installing the base game
+note: epic players cannot sign in from folders that arent the one displayed when installing the base game. However keeping a copy is still useful. When there is a update, allow epic games to update the game, then go to program files/epic games/among us and delete the contents. Now copy paste the files from your copy to the epic folder. You will be able to sign in and play once again. This is a useful and nice alternative due to not being able to actually downgrade on epic unlike steam.
 
 Step 2: Use the up and down arrow keys to select the mod you want to install, it will be highlighted blue, click ```enter```, write ```y``` or ```n``` and click ```enter``` to confirm
 
