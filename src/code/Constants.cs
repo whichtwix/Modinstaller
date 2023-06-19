@@ -22,7 +22,7 @@ namespace Modinstaller
 
             {"Town of Host", "https://api.github.com/repos/tukasa0001/TownOfHost/releases/latest"},
 
-            {"Town of Host:The Other Roles", "https://api.github.com/repos/music-discussion/TownOfHost-TheOtherRoles/releases"},
+            {"Project Lotus", "https://api.github.com/repos/ImaMapleTree/Lotus/releases/latest"},
 
             {"Las Monjas", "https://api.github.com/repos/KiraYamato94/LasMonjas/releases/latest"},
         };

@@ -119,13 +119,16 @@ namespace Modinstaller
                 {
                     case "The Other Roles":
                     case "Town of Host":
-                    case "Town of Host:The Other Roles":
                         return;
                     case "Town of Us":
                         mod = "ToU";
                         break;
                     case "Las Monjas":
                         mod = modversion;
+                        modversion = string.Empty;
+                        break;
+                    case "Project Lotus":
+                        mod = $"Lotus{modversion[16..]}";
                         modversion = string.Empty;
                         break;
                 }
