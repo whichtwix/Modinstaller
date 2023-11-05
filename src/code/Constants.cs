@@ -8,24 +8,15 @@ namespace Modinstaller
 {
     public sealed class Constants
     {
-        public static readonly string Jsonpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\\Modinstaller\\InstallPresets.json";
+        public static readonly string PresetsJson = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\\Modinstaller\\InstallPresets.json";
 
         public static readonly string ErrorLog = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\\Modinstaller\\ErrorLog.txt";
 
+        public static readonly string ModsJson = "https://github.com/whichtwix/Modinstaller/raw/Master/ModList.json";
+
         public static readonly JsonSerializerOptions opts = new() { WriteIndented = true };
 
-        public static readonly Dictionary<string, string> Mods = new()
-        {
-            {"Town of Us", "https://api.github.com/repos/eDonnes124/Town-Of-Us-R/releases/latest"},
-
-            {"The Other Roles", "https://api.github.com/repos/TheOtherRolesAU/TheOtherRoles/releases/latest"},
-
-            {"Town of Host", "https://api.github.com/repos/tukasa0001/TownOfHost/releases/latest"},
-
-            {"Project Lotus", "https://api.github.com/repos/ImaMapleTree/Lotus/releases/latest"},
-
-            {"Las Monjas", "https://api.github.com/repos/KiraYamato94/LasMonjas/releases/latest"},
-        };
+        public static Dictionary<string, string> Mods = new();
 
         public static readonly Dictionary<string, Func<Task>> Actions = new()
         {

@@ -22,9 +22,4 @@ namespace Modinstaller
 
         public string DestinationFolder { get; set; }
     }
-
-    public sealed class Modversion
-    {
-        public string Version { get; set; }
-    }
 }

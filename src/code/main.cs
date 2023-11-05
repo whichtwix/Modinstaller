@@ -10,6 +10,7 @@ namespace Modinstaller
         private static async Task Main()
         {
             if (File.Exists(Constants.ErrorLog)) File.Delete(Constants.ErrorLog);
+            await GithubApi.FetchMods();
 
             bool useagain = true;
             while (useagain)

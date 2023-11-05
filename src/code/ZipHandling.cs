@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.IO.Compression;
 using System.Threading.Tasks;
@@ -10,25 +11,21 @@ namespace Modinstaller
     {
         public static async Task Install(string Basepath, string Destinationpath, string mod)
         {
-            Modversion modversion = new()
-            {
-                Version = string.Empty
-            };
             if (Destinationpath != string.Empty)
             {
                 Console.WriteLine($"Downloading {mod} to {Destinationpath}");
-                await DownloadExtractzip(Basepath, Destinationpath, mod, modversion);
-                Movefiles(Destinationpath, mod, modversion.Version);
+                await DownloadExtractzip(Basepath, Destinationpath, mod);
+                Movefiles(Destinationpath);
                 return;
             }
             Console.WriteLine($"Downloading {mod} to {Basepath}");
-            await DownloadExtractzip(Basepath, mod, modversion);
-            Movefiles(Basepath, mod, modversion.Version);
+            await DownloadExtractzip(Basepath, mod);
+            Movefiles(Basepath);
 
             Console.WriteLine($"installation of {mod} complete");
         }
 
-        public static async Task DownloadExtractzip(string Basepath, string selectedmod, Modversion modversion)
+        public static async Task DownloadExtractzip(string Basepath, string selectedmod)
         {
             try
             {
@@ -38,11 +35,11 @@ namespace Modinstaller
                 //we have to differentiate due to pre-releases
                 if (url.Contains("latest"))
                 {
-                    connection = await GithubApi.Fetchlatestrelease(url, modversion);
+                    connection = await GithubApi.Fetchlatestrelease(url);
                 }
                 else
                 {
-                    connection = await GithubApi.Fetchfromallreleases(url, modversion);
+                    connection = await GithubApi.Fetchfromallreleases(url);
                 }
 
                 string zippath = $"{Basepath}" + "\\mod.zip";
@@ -67,7 +64,7 @@ namespace Modinstaller
             }
         }
 
-        public static async Task DownloadExtractzip(string Basepath, string Destinationpath, string selectedmod, Modversion modversion)
+        public static async Task DownloadExtractzip(string Basepath, string Destinationpath, string selectedmod)
         {
             try
             {
@@ -77,11 +74,11 @@ namespace Modinstaller
                 //we have to differentiate due to pre-releases
                 if (url.Contains("latest"))
                 {
-                    connection = await GithubApi.Fetchlatestrelease(url, modversion);
+                    connection = await GithubApi.Fetchlatestrelease(url);
                 }
                 else
                 {
-                    connection = await GithubApi.Fetchfromallreleases(url, modversion);
+                    connection = await GithubApi.Fetchfromallreleases(url);
                 }
 
                 if (!Directory.Exists(Destinationpath)) Directory.CreateDirectory(Destinationpath);
@@ -108,32 +105,14 @@ namespace Modinstaller
             }
         }
 
-        public static void Movefiles(string path, string mod, string modversion)
+        public static void Movefiles(string path)
         {
-            //no intermediate folder thus nothing to move: return
-            //tou uses acronym in folder
-            //the Name property from the Json class gives the folder name for las monjas
             try
             {
-                switch (mod)
-                {
-                    case "The Other Roles":
-                    case "Town of Host":
-                        return;
-                    case "Town of Us":
-                        mod = "ToU";
-                        break;
-                    case "Las Monjas":
-                        mod = modversion;
-                        modversion = string.Empty;
-                        break;
-                    case "Project Lotus":
-                        mod = $"Lotus{modversion[16..]}";
-                        modversion = string.Empty;
-                        break;
-                }
+                var folders = Directory.GetDirectories(path);
 
-                string subfolder = modversion != string.Empty ? $"{path}\\{mod} {modversion}" : $"{path}\\{mod}";
+                var subfolder = folders.FirstOrDefault(x => Directory.Exists($"{x}\\BepInEx") && Directory.Exists($"{x}\\dotnet"));
+                if (subfolder == null) return;
                 foreach (string file in Directory.GetFiles(subfolder))
                 {
                     File.Move($"{file}", $"{path}\\{file[(subfolder.Length + 1)..]}", true);

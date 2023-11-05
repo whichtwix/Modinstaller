@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Modinstaller
 {
@@ -22,7 +23,7 @@ namespace Modinstaller
 
             await ModZip.Install(Basepath, Destinationpath, mod);
 
-            if (!File.Exists(Constants.Jsonpath) || !Presetfile.GetPresets().ConvertAll(x => x.Mod).Contains(mod))
+            if (!File.Exists(Constants.PresetsJson) || !Presetfile.GetPresets().ConvertAll(x => x.Mod).Contains(mod))
             {
                 bool save = AnsiConsole.Confirm("Do you want to save these details as a preset now for future use?");
                 if (save)
@@ -40,7 +41,7 @@ namespace Modinstaller
 
         public static async Task InstallByJson()
         {
-            if (!File.Exists(Constants.Jsonpath))
+            if (!File.Exists(Constants.PresetsJson))
             {
                 Console.WriteLine("Presets file does not exist");
                 return;
@@ -89,9 +90,10 @@ namespace Modinstaller
             Presetfile.WriteJson(preset);
         }
 
+        [UnconditionalSuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "no sideaffects")]
         public static async Task RemoveFromJson()
         {
-            if (!File.Exists(Constants.Jsonpath))
+            if (!File.Exists(Constants.PresetsJson))
             {
                 Console.WriteLine("Presets file does not exist");
                 return;
@@ -106,24 +108,24 @@ namespace Modinstaller
 
             if (mod != "Cancel" && presets.Count == 1)
             {
-                File.Delete(Constants.Jsonpath);
+                File.Delete(Constants.PresetsJson);
                 return;
             }
 
             presets = presets.FindAll(x => x.Mod != mod);
             string serial = JsonSerializer.Serialize(presets, Constants.opts);
-            await File.WriteAllTextAsync(Constants.Jsonpath, serial);
+            await File.WriteAllTextAsync(Constants.PresetsJson, serial);
         }
 
         public static async Task ViewPresets()
         {
-            if (!File.Exists(Constants.Jsonpath))
+            if (!File.Exists(Constants.PresetsJson))
             {
                 Console.WriteLine("Presets file does not exist");
                 return;
             }
 
-            Process.Start("notepad.exe", Constants.Jsonpath);
+            Process.Start("notepad.exe", Constants.PresetsJson);
         }
     }
 }

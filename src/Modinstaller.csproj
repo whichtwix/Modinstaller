@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>Net6.0</TargetFramework>
     <Configuration>Release</Configuration>
-    <Version>3.2.0</Version>
+    <Version>3.3.0</Version>
     <DebugType>embedded</DebugType>
     <LangVersion>latest</LangVersion>
     <OutputType>Exe</OutputType>
