@@ -8,15 +8,17 @@ namespace Modinstaller
 {
     public sealed class Inputs
     {
-        public static void Setfolderpaths(out string Basepath, out string Destination)
+        public static void Setfolderpaths(out string Basepath, out string Destination, out bool IsMSstore)
         {
             bool acceptedpath = false;
+            IsMSstore = false;
             Basepath = string.Empty;
             Destination = string.Empty;
 
             while (!acceptedpath)
             {
                 Basepath = AnsiConsole.Ask<string>("Enter the path to your among us folder(copy paste here):");
+                if (File.Exists(Basepath + "\\UnityCrashHandler64.exe")) IsMSstore = true;
                 if (Directory.Exists(Basepath + "\\Among Us_Data")) acceptedpath = true;
                 else Console.WriteLine($"the path '{Basepath}' is not valid; vanilla files could not be found");
             }
@@ -25,7 +27,7 @@ namespace Modinstaller
             if (enter) Destination = AnsiConsole.Ask("Enter the path to a empty folder(copy paste here) or enter to exit:", string.Empty);
             if (!ValidPath(Destination) && Destination != string.Empty)
             {
-                Console.WriteLine($" '{Destination}' was found as an invalid directory or potentional directory");
+                Console.WriteLine($" '{Destination}' was found as an invalid directory or potential directory");
                 Destination = string.Empty;
             }
         }

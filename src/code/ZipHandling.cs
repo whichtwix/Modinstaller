@@ -9,23 +9,26 @@ namespace Modinstaller
 {
     public sealed class ModZip
     {
-        public static async Task Install(string Basepath, string Destinationpath, string mod)
+        public static async Task Install(string Basepath, string Destinationpath, string mod, bool IsMSstore)
         {
             if (Destinationpath != string.Empty)
             {
                 Console.WriteLine($"Downloading {mod} to {Destinationpath}");
-                await DownloadExtractzip(Basepath, Destinationpath, mod);
+                await DownloadExtractzip(Basepath, Destinationpath, mod, IsMSstore);
                 Movefiles(Destinationpath);
+                ValidateZip(Destinationpath, IsMSstore);
+                Console.WriteLine($"installation of {mod} complete");
                 return;
             }
             Console.WriteLine($"Downloading {mod} to {Basepath}");
-            await DownloadExtractzip(Basepath, mod);
+            await DownloadExtractzip(Basepath, mod, IsMSstore);
             Movefiles(Basepath);
+            ValidateZip(Basepath, IsMSstore);
 
             Console.WriteLine($"installation of {mod} complete");
         }
 
-        public static async Task DownloadExtractzip(string Basepath, string selectedmod)
+        public static async Task DownloadExtractzip(string Basepath, string selectedmod, bool IsMSstore)
         {
             try
             {
@@ -35,11 +38,11 @@ namespace Modinstaller
                 //we have to differentiate due to pre-releases
                 if (url.Contains("latest"))
                 {
-                    connection = await GithubApi.Fetchlatestrelease(url);
+                    connection = await GithubApi.FetchLatestRelease(url, IsMSstore);
                 }
                 else
                 {
-                    connection = await GithubApi.Fetchfromallreleases(url);
+                    connection = await GithubApi.FetchFromAllReleases(url, IsMSstore);
                 }
 
                 string zippath = $"{Basepath}" + "\\mod.zip";
@@ -64,7 +67,7 @@ namespace Modinstaller
             }
         }
 
-        public static async Task DownloadExtractzip(string Basepath, string Destinationpath, string selectedmod)
+        public static async Task DownloadExtractzip(string Basepath, string Destinationpath, string selectedmod, bool IsMSstore)
         {
             try
             {
@@ -74,11 +77,11 @@ namespace Modinstaller
                 //we have to differentiate due to pre-releases
                 if (url.Contains("latest"))
                 {
-                    connection = await GithubApi.Fetchlatestrelease(url);
+                    connection = await GithubApi.FetchLatestRelease(url, IsMSstore);
                 }
                 else
                 {
-                    connection = await GithubApi.Fetchfromallreleases(url);
+                    connection = await GithubApi.FetchFromAllReleases(url, IsMSstore);
                 }
 
                 if (!Directory.Exists(Destinationpath)) Directory.CreateDirectory(Destinationpath);
@@ -142,6 +145,20 @@ namespace Modinstaller
             foreach (string file in Directory.GetFiles(originalfolder, "*.*",SearchOption.AllDirectories))
             {
                 File.Copy(file, file.Replace(originalfolder, DestinationFolder), true);
+            }
+        }
+
+        public static void ValidateZip(string path, bool IsMSstore)
+        {
+            if (!IsMSstore && File.Exists(path + "\\dotnet\\Microsoft.DiaSymReader.Native.amd64.dll"))
+            {
+                Console.WriteLine("The game was detected as Steam/Epic/Itch earlier but a Microsoft specific dll was found");
+                Console.WriteLine("May need to download the correct zip yourself");
+            }
+            if (IsMSstore && File.Exists(path + "\\dotnet\\Microsoft.DiaSymReader.Native.x86.dll"))
+            {
+                Console.WriteLine("The game was detected as Microsoft earlier but a Non-Microsoft specific dll was found");
+                Console.WriteLine("May need to download the correct zip yourself");
             }
         }
     }

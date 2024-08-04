@@ -13,7 +13,7 @@ namespace Modinstaller
     {
         public static async Task InstallByUser()
         {
-            Inputs.Setfolderpaths(out string Basepath, out string Destinationpath);
+            Inputs.Setfolderpaths(out string Basepath, out string Destinationpath, out bool IsMSstore);
             List<string> items = new(Constants.Mods.Keys)
             {
                 "Cancel"
@@ -21,7 +21,7 @@ namespace Modinstaller
             string mod = Inputs.ChooseFromChoice(items, "Select which mod you want to install:");
             if (mod == "Cancel") return;
 
-            await ModZip.Install(Basepath, Destinationpath, mod);
+            await ModZip.Install(Basepath, Destinationpath, mod, IsMSstore);
 
             if (!File.Exists(Constants.PresetsJson) || !Presetfile.GetPresets().ConvertAll(x => x.Mod).Contains(mod))
             {
@@ -32,7 +32,8 @@ namespace Modinstaller
                     {
                         BaseFolder = Basepath,
                         DestinationFolder = Destinationpath,
-                        Mod = mod
+                        Mod = mod,
+                        IsMicrosoftStore = IsMSstore
                     };
                     Presetfile.WriteJson(preset);
                 }
@@ -63,17 +64,17 @@ namespace Modinstaller
 
             if (mod == "All presets")
             {
-                await Parallel.ForEachAsync(presets, async (preset, _) => await ModZip.Install(preset.BaseFolder, preset.DestinationFolder, preset.Mod));
+                await Parallel.ForEachAsync(presets, async (preset, _) => await ModZip.Install(preset.BaseFolder, preset.DestinationFolder, preset.Mod, preset.IsMicrosoftStore));
                 return;
             }
             var preset = presets.Find(x => x.Mod == mod);
-            await ModZip.Install(preset.BaseFolder, preset.DestinationFolder, preset.Mod);
+            await ModZip.Install(preset.BaseFolder, preset.DestinationFolder, preset.Mod, preset.IsMicrosoftStore);
         }
 
         public static async Task AddToJson()
         {
             Console.WriteLine("WARNING: only 1 preset per mod is allowed and selecting again will override the existing one");
-            Inputs.Setfolderpaths(out string Basepath, out string Destinationpath);
+            Inputs.Setfolderpaths(out string Basepath, out string Destinationpath, out bool IsMSstore);
             List<string> items = new(Constants.Mods.Keys)
             {
                 "Cancel"
@@ -84,6 +85,7 @@ namespace Modinstaller
             PresetsJson preset = new()
             {
                 Mod = mod,
+                IsMicrosoftStore = IsMSstore,
                 BaseFolder = Basepath,
                 DestinationFolder = Destinationpath
             };
@@ -102,11 +104,12 @@ namespace Modinstaller
             var presets = Presetfile.GetPresets();
             var items = Presetfile.GetPresets().ConvertAll(x => x.Mod);
             items.Add("Cancel");
+            items.Add("All");
             string mod = Inputs.ChooseFromChoice(items, "Choose the mod you want to remove:");
 
             if (mod == "Cancel") return;
 
-            if (mod != "Cancel" && presets.Count == 1)
+            if ((mod != "Cancel" && presets.Count == 1) || mod == "All")
             {
                 File.Delete(Constants.PresetsJson);
                 return;
